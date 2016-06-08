@@ -9,14 +9,20 @@ import java.util.List;
 /**
  * 5 Jun 2016
  */
-public class Account {
+public abstract class Account {
 	/*
 	 * ******************** STATIC AND FINAL VARS ********************
 	*/
+	
+	
 
 	/*
 	 * ******************** INSTANCE VARS ********************
 	*/
+	/**
+	 * The unique ID of the account.
+	 */
+	private String accountID;
 	
 	/**
 	 * Name of the Account
