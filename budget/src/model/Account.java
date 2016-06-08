@@ -4,7 +4,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 5 Jun 2016
@@ -13,40 +13,66 @@ public class Account {
 	/*
 	 * ******************** STATIC AND FINAL VARS ********************
 	*/
-
+		
 	/*
 	 * ******************** INSTANCE VARS ********************
 	*/
 	
 	/**
-	 * Name of the Account
+	 * Unique ID associated with the account.
+	 */
+	private String accountID;
+	
+	/**
+	 * The account name given by the user.
 	 */
 	private String accountName;
 	
 	/**
-	 * Description of the account.
+	 * The account description given by the user.
 	 */
 	private String accountDescription;
 	
 	/**
-	 * Account balance. Use smallest denomination of currency.
-	 * IE use pennies for GB, or cents for US.
+	 * A balance snapshot. Create periodically to prevent a lot of 
+	 * balance calculations.
 	 */
-	private int accountBalance;
+	private int accountBalanceSnapshot;
 	
-	private List<Transaction> transactionList;
+	/**
+	 * The set of transactions which occur related to this account.
+	 */
+	private Collection<Transaction> transactionColleciton;
 	
 	/*
 	 * ******************** CONSTRUCTORS ********************
 	*/
-
+	
+	/**
+	 * Default Constructor
+	 */
 	public Account(){
-		transactionList = new ArrayList<>();
+		transactionColleciton = new ArrayList<>();
+		
 	}
 	
 	/*
 	 * ******************** SETTERS AND GETTERS ********************
 	*/
+
+	/**
+	 * @return the accountID
+	 */
+	public String getAccountID() {
+		return accountID;
+	}
+
+	/**
+	 * @param accountID the accountID to set
+	 */
+	public void setAccountID(String accountID) {
+		this.accountID = accountID;
+	}
 
 	/**
 	 * @return the accountName
@@ -77,58 +103,53 @@ public class Account {
 	}
 
 	/**
-	 * @return the accountBalance
+	 * @return the accountBalanceSnapshot
 	 */
-	public int getAccountBalance() {
-		return accountBalance;
+	public int getAccountBalanceSnapshot() {
+		return accountBalanceSnapshot;
 	}
 
 	/**
-	 * @param accountBalance the accountBalance to set
+	 * @param accountBalanceSnapshot the accountBalanceSnapshot to set
 	 */
-	public void setAccountBalance(int accountBalance) {
-		this.accountBalance = accountBalance;
+	public void setAccountBalanceSnapshot(int accountBalanceSnapshot) {
+		this.accountBalanceSnapshot = accountBalanceSnapshot;
 	}
-	
+
 	/**
-	 * 
-	 * @return
+	 * @return the transactionColleciton
 	 */
-	public List<Transaction> getTransactionList(){
-		return this.transactionList;
+	public Collection<Transaction> getTransactionColleciton() {
+		return transactionColleciton;
 	}
-	
-	public void setTransactionList(List<Transaction> transactionList){
-		this.transactionList = transactionList;
+
+	/**
+	 * @param transactionColleciton the transactionColleciton to set
+	 */
+	public void setTransactionColleciton(Collection<Transaction> transactionColleciton) {
+		this.transactionColleciton = transactionColleciton;
 	}
 	
 	/*
 	 * ******************** CLASS METHODS ********************
 	*/
 	
-	public void deposit(int amount){
-		setAccountBalance(getAccountBalance() + amount);		
-	}
-	
-	public void deposit(double amount){
-		setAccountBalance(getAccountBalance() + (int)(amount * 100));
-	}
-	
-	public void withdraw(int amount){
-		setAccountBalance(getAccountBalance() - amount);
-	}
-	
+	/**
+	 * Add the transaction to the list of transactions for the account.
+	 * @param transaction
+	 */
 	public void addTransaction(Transaction transaction){
-		transactionList.add(transaction);
-		this.updateBalance();
+		transactionColleciton.add(transaction);
 	}
 	
-	private void updateBalance(){
-		int accountTotal = this.getAccountBalance();
-		for(Transaction transaction : this.transactionList){
-			accountTotal += transaction.getTransactionAmount();			
-		}
-		this.setAccountBalance(accountTotal);
+	/**
+	 * Remove the transaction from the list of transactions for the account.
+	 * @param transaction
+	 */
+	public void removeTransaction(Transaction transaction){
+		transactionColleciton.remove(transaction);		
 	}
+	
+	
 
 }
